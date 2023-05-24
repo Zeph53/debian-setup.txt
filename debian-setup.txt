@@ -14,16 +14,16 @@
 #
 ## Recreate Debian TESTING repo sources.list with old stable backports
 sudo echo '#
-deb http://deb.debian.org/debian/ testing main contrib non-free
-deb-src http://deb.debian.org/debian/ testing main contrib non-free
-deb http://deb.debian.org/debian/ testing-updates main contrib non-free
-deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free
-deb http://security.debian.org/debian-security testing-security main contrib non-free
-deb-src http://security.debian.org/debian-security testing-security main contrib non-free
-deb http://deb.debian.org/debian/ stable main contrib non-free
-deb-src http://deb.debian.org/debian/ stable main contrib non-free
-deb http://deb.debian.org/debian/ oldstable main contrib non-free
-deb-src http://deb.debian.org/debian/ oldstable main contrib non-free
+deb [arch=amd64,i386] https://deb.debian.org/debian/ testing main contrib non-free
+deb-src [arch=amd64,i386] https://deb.debian.org/debian/ testing main contrib non-free
+deb [arch=amd64,i386] https://deb.debian.org/debian/ testing-updates main contrib non-free
+deb-src [arch=amd64,i386] https://deb.debian.org/debian/ testing-updates main contrib non-free
+deb [arch=amd64,i386] https://security.debian.org/debian-security testing-security main contrib non-free
+deb-src [arch=amd64,i386] https://security.debian.org/debian-security testing-security main contrib non-free
+deb [arch=amd64,i386] https://deb.debian.org/debian/ stable main contrib non-free
+deb-src [arch=amd64,i386] https://deb.debian.org/debian/ stable main contrib non-free
+deb [arch=amd64,i386] https://deb.debian.org/debian/ oldstable main contrib non-free
+deb-src [arch=amd64,i386] https://deb.debian.org/debian/ oldstable main contrib non-free
 ' > /etc/apt/sources.list
 #
 ## Add x86 to sources
@@ -58,38 +58,42 @@ vm.swappiness = 10
 ## SOFTWARES
 #
 ## Firmwares
-apt install --install-recommends firmware-linux-nonfree firmware-iwlwifi firmware-realtek linux-headers-amd64 bluez-firmware pulseaudio dkms llvm mono-runtime apt-transport-https dnsmasq resolvconf tlp p7zip rar unrar cabextract btrfs-tools mono-complete cups sane hplip printer-driver-all openjdk-11-jre openjdk-17-jre inkscape sassc optipng fuseiso -y
+apt install --install-recommends -y firmware-linux-nonfree firmware-iwlwifi firmware-realtek linux-headers-amd64 bluez-firmware pulseaudio dkms llvm mono-runtime apt-transport-https dnsmasq resolvconf tlp p7zip rar unrar cabextract btrfs-tools mono-complete cups sane hplip printer-driver-all openjdk-11-jre openjdk-17-jre inkscape sassc optipng
+#
+## Firmwares new
+apt install --install-recommends -y firmware-linux-nonfree firmware-iwlwifi linux-headers-amd64 bluez-firmware dkms llvm gcc-multilib mono-complete apt-transport-https dnsmasq resolvconf tlp p7zip-rar cabextract hplip printer-driver-all inkscape sassc optipng
 #
 ## System Utilities
-apt install --install-recommends blueman gufw lynis gparted gpart cpupower-gui alacarte mugshot neofetch lynx hexedit wmctrl -y
+apt install --install-recommends -y blueman gufw lynis tiger gparted cpupower-gui alacarte mugshot neofetch lynx cmus hexedit wmctrl xcalib gpick
 #
 ## Development Packages
-apt install --install-recommends libtool gcc gcc-multilib g++ clang git build-essential make automake autoconf pkg-config libcurl4-openssl-dev libjansson-dev libssl-dev libgmp-dev zlib1g-dev libncurses5-dev bison flex maven openjdk-11-jdk openjdk-17-jdk -y
+apt install --install-recommends -y libtool clang git libcurl4-openssl-dev libjansson-dev libssl-dev libgmp-dev zlib1g-dev libncurses5-dev bison flex maven default-jdk gh
 #
 ## Install programs
-apt --install-recommends install gimp proxychains tor steam lutris mangohud mednaffen pcsx2 vlc clementine filezilla virt-manager handbrake transmission cmus catfish -y
+apt install --install-recommends -y gimp proxychains tor steam lutris mangohud mangoctl vlc clementine filezilla virt-manager handbrake soundconverter transmission catfish
 #
 ## Install 32 bit libs and vulkan libs
-apt --install-recommends install lib32z1 libidn11:i386 libxmu6:i386 libpangox-1.0-0:i386 libpangoxft-1.0-0:i386 libglx-mesa0:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers libgl1-mesa-dri:i386 libgtk2.0-0:i386 libopenal1:i386 libxtst6:i386 vulkan-validationlayers vulkan-tools vulkan-utils mesa-opencl-icd intel-opencl-icd -y
+apt --install-recommends -y install lib32z1 libidn11:i386 libxmu6:i386 libpangox-1.0-0:i386 libpangoxft-1.0-0:i386 libglx-mesa0:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers libgl1-mesa-dri:i386 libgtk2.0-0:i386 libopenal1:i386 libxtst6:i386 vulkan-validationlayers vulkan-tools vulkan-utils mesa-opencl-icd intel-opencl-icd
 #
 ## Install Nvidia driver and CUDA
+#apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/GPGKEY
 systemctl stop lightdm
 apt install nvidia-driver nvidia-cuda-dev nvidia-cuda-toolkit -y
 #
 ## Install Razer driver and Polychromatic
 apt install openrazer-meta -y
-echo "deb http://ppa.launchpad.net/polychromatic/testing/ubuntu focal main" > /etc/apt/sources.list.d/polychromatic.list
+echo "deb [arch=amd64,i386] http://ppa.launchpad.net/polychromatic/testing/ubuntu focal main" > /etc/apt/sources.list.d/polychromatic.list
 apt-key adv --recv-key --keyserver keyserver.ubuntu.com 96B9CD7C22E2C8C5
 apt update
-apt install polychromatic -y
+apt install --install-recommends -y polychromatic
 #
 ## Install Logitech Stuff
-echo "deb https://ppa.launchpadcontent.net/vivnet/g510s/ubuntu impish main 
+echo "deb [arch=amd64,i386] https://ppa.launchpadcontent.net/vivnet/g510s/ubuntu impish main 
 deb-src https://ppa.launchpadcontent.net/vivnet/g510s/ubuntu impish main
 " > /etc/apt/sources.list.d/polychromatic.list
 apt-key adv --recv-key --keyserver keyserver.ubuntu.com 0x0403E3A5DADCB078BED6D51E3E7E6997B4C491B3
 apt update
-apt install g510s g15stats -y
+apt install --install-recommends -y g510s g15stats
 #
 ## Install secondary 32 bit libs (OUTDATED-CRASH) cba to find the culprit
 #apt install libxtst6:i386 libxrandr2:i386 libglib2.0-0:i386 libgtk2.0-0:i386 libpulse0:i386 libgdk-pixbuf2.0-0:i386 libcurl4-openssl-dev:i386 libopenal1:i386 libusb-1.0-0:i386 libdbus-glib-1-2:i386 -y 
@@ -109,26 +113,26 @@ rm -r ~/Downloads/discordinstall ;
 ## Install WINE-STAGING
 wget -qO- 'https://dl.winehq.org/wine-builds/winehq.key' | tee /etc/apt/trusted.gpg.d/winehq.asc
 echo '#
-deb https://dl.winehq.org/wine-builds/debian/ testing main
+deb [arch=amd64,i386] https://dl.winehq.org/wine-builds/debian/ testing main
 ' > /etc/apt/sources.list.d/winehq.list
 apt update
-apt install winehq-staging zenity winetricks -y
+apt install --install-recommends -y winehq-staging winetricks
 #
 ## Install .NET
 wget -qO- 'https://packages.microsoft.com/keys/microsoft.asc' | tee /etc/apt/trusted.gpg.d/microsoft.asc
 sudo wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O ~/Downloads/packages-microsoft-prod.deb
 sudo dpkg -i ~/Downloads/packages-microsoft-prod.deb
 sudo rm ~/Downloads/packages-microsoft-prod.deb
-sudo apt install aspnetcore-runtime-5.0 -y
-sudo apt install aspnetcore-runtime-6.0 -y
+sudo apt install --install-recommends -y aspnetcore-runtime-5.0
+sudo apt install --install-recommends -y aspnetcore-runtime-6.0
 #
-## Install RUNESCAPE3
+## Install RUNESCAPE
 wget -qO- 'https://content.runescape.com/downloads/ubuntu/runescape.gpg.key' | tee /etc/apt/trusted.gpg.d/runescape.asc
-sudo echo '#
-deb [ arch=amd64 ] https://content.runescape.com/downloads/ubuntu trusty non-free
+echo '#
+deb [arch=amd64,i386] https://content.runescape.com/downloads/ubuntu trusty non-free
 ' > /etc/apt/sources.list.d/runescape.list
-sudo apt update
-sudo apt install runescape-launcher -y
+apt update
+apt install --install-recommends -y runescape-launcher
 #
 ## Install VIRTUALBOX
 wget -qO- 'https://www.virtualbox.org/download/oracle_vbox_2016.asc' | tee /etc/apt/trusted.gpg.d/vbox.asc
@@ -136,7 +140,7 @@ echo '#
 deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian buster contrib
 ' > /etc/apt/sources.list.d/virtualbox.list
 apt update
-apt install virtualbox-6.1 -y
+apt install --install-recommends -y virtualbox-6.1 -y
 wget -O ~/Downloads/vbox-ext-pack.vbox-extpack 'https://download.virtualbox.org/virtualbox/6.1.32/Oracle_VM_VirtualBox_Extension_Pack-6.1.32.vbox-extpack'
 wget -O ~/Downloads/vbox-guest-additions.iso 'https://download.virtualbox.org/virtualbox/6.1.32/VBoxGuestAdditions_6.1.32.iso'
 wget -O ~/Downloads/vbox-guest-additions.deb 'https://download.virtualbox.org/virtualbox/6.1.32/virtualbox-6.1_6.1.32-149290~Debian~buster_amd64.deb'
@@ -146,3 +150,9 @@ dpkg -i ~/Downloads/vbox-guest-additions.deb
 wget -O ~/Downloads/earth-pro.deb 'https://dl.google.com/dl/earth/client/current/google-earth-pro-stable_current_amd64.deb'
 dpkg -i ~/Downloads/earth-pro.deb
 rm ~/Downloads/earth-pro.deb
+#
+## Install SNAP
+echo 'PATH="$PATH:/snap/bin"' >> ~/.bashrc
+apt install --install-recommends -y snapd
+snap install core
+snap install snap-store
