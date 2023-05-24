@@ -1,6 +1,5 @@
 #
 ## DEBIAN-SETUP.TXT
-#
 
 This is a plain text file, designed to assist a user with initial setup of Debian Linux, or any/some/most distributions based on it.
 
